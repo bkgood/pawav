@@ -27,5 +27,8 @@ int main(int argc, char *argv[])
         printf("%s: filename.wav\n", argv[0]);
     }
 
+    setenv("PULSE_PROP_application.name", "pawav", 1);
+    setenv("PULSE_PROP_media.role", "music", 1);
+
     return run_reader(argv[1]);
 }

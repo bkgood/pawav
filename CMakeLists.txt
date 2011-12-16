@@ -13,5 +13,6 @@ if(NOT CMAKE_USE_PTHREADS_INIT)
 endif(NOT CMAKE_USE_PTHREADS_INIT)
 
 # this isn't the best cmake practice (I guess) but it'll do for now
-add_executable(pawav src/pawav.c src/reader.c)
+add_executable(pawav src/pawav.c src/reader.c src/pa_ringbuffer.c
+    src/readerthread.c)
 target_link_libraries(pawav pulse sndfile ${CMAKE_THREAD_LIBS_INIT})

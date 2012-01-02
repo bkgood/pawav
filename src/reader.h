@@ -1,6 +1,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#ifndef READER_H
+#define READER_H
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -31,7 +34,7 @@ typedef struct {
  * \returns true if a reader was sucessfully created
  * \returns false if out of memory.
  */
-bool reader_create(Reader **r);
+bool reader_init(Reader *r);
 
 /**
  * Opens a reader.
@@ -60,8 +63,10 @@ bool reader_close(Reader *r);
 /**
  * Destroys a reader.
  */
-void reader_destroy(Reader **r);
+void reader_destroy(Reader *r);
 
 #ifdef __cplusplus
 } // extern "C"
+#endif
+
 #endif

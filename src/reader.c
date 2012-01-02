@@ -13,18 +13,15 @@ typedef struct {
     size_t buffer_size;
 } ReaderPrivate;
 
-bool reader_create(Reader **r)
+bool reader_init(Reader *r)
 {
-    Reader *myr = calloc(1, sizeof(Reader));
-    if (!myr) return false;
-
     ReaderPrivate *p = calloc(1, sizeof(ReaderPrivate));
     if (!p) return false;
-    myr->p = p;
 
+    memset(r, 0, sizeof(*r));
     memset(&p->info, 0, sizeof(p->info));
 
-    *r = myr;
+    r->p = p;
     return true;
 }
 
@@ -87,10 +84,9 @@ bool reader_close(Reader *r)
     return true;
 }
 
-void reader_destroy(Reader **r)
+void reader_destroy(Reader *r)
 {
-    ReaderPrivate *p = (*r)->p;
+    ReaderPrivate *p = r->p;
     free(p);
-    free(*r);
-    *r = NULL;
+    r->p = NULL;
 }

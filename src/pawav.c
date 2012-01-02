@@ -5,18 +5,18 @@
 
 int run_reader(const char *f)
 {
-    Reader *r;
-    if (!reader_create(&r)) {
+    Reader r;
+    if (!reader_init(&r)) {
         printf("out of memory\n");
         return EXIT_FAILURE;
     }
 
-    r->filename = f;
-    reader_open(r);
-    while (r->n) {
-        reader_read(r);
+    r.filename = f;
+    reader_open(&r);
+    while (r.n) {
+        reader_read(&r);
     }
-    reader_close(r);
+    reader_close(&r);
     reader_destroy(&r);
     return 0;
 }

@@ -15,19 +15,17 @@ typedef struct {
 
 bool reader_create(Reader **r)
 {
-    *r = calloc(1, sizeof(Reader));
-    if (!*r) return false;
-    memset(*r, 0, sizeof(Reader));
+    Reader *myr = calloc(1, sizeof(Reader));
+    if (!myr) return false;
 
     ReaderPrivate *p = calloc(1, sizeof(ReaderPrivate));
     if (!p) return false;
-    memset(p, 0, sizeof(ReaderPrivate));
-    (*r)->p = p;
+    myr->p = p;
 
     p->info = calloc(1, sizeof(SF_INFO));
     if (!p->info) return false;
-    memset(p->info, 0, sizeof(SF_INFO));
 
+    *r = myr;
     return true;
 }
 

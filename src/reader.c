@@ -29,11 +29,6 @@ bool reader_open(Reader *r)
 {
     ReaderPrivate *p = r->p;
 
-    if (!r->n) {
-        r->n = kDefaultBuffer;
-    }
-    p->buffer_size = r->n;
-
     if (!r->filename) {
         printf("reader_open requires a file name\n");
         return false;
@@ -52,6 +47,11 @@ bool reader_open(Reader *r)
     r->channels = p->info.channels;
     r->samplerate = p->info.samplerate;
 
+    if (!r->n) {
+        r->n = kDefaultBuffer;
+    }
+    p->buffer_size = r->n;
+
     r->buffer = calloc(r->channels * p->buffer_size, sizeof(int16_t));
     if (!r->buffer) {
         printf("failed to allocate buffer\n");
@@ -61,11 +61,10 @@ bool reader_open(Reader *r)
     return true;
 }
 
-bool reader_read(Reader *r)
+void reader_read(Reader *r)
 {
     ReaderPrivate *p = r->p;
-    r->n = sf_read_short(p->handle, r->buffer, p->buffer_size * r->channels);
-    return true;
+    r->n = sf_readf_short(p->handle, r->buffer, p->buffer_size);
 }
 
 bool reader_close(Reader *r)

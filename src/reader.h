@@ -29,8 +29,7 @@ typedef struct {
  * reader_open.
  *
  * \returns true if a reader was sucessfully created
- * \returns false if out of memory. Doesn't bother deallocating anything so if
- * you get this just bail out.
+ * \returns false if out of memory.
  */
 bool reader_create(Reader **r);
 
@@ -60,7 +59,6 @@ bool reader_close(Reader *r);
 
 /**
  * Destroys a reader.
- *
  */
 void reader_destroy(Reader **r);
 

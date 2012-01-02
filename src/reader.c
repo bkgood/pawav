@@ -43,17 +43,6 @@ bool reader_open(Reader *r)
     if (!r->filename) {
         printf("reader_open requires a file name\n");
         return false;
-    } else {
-        char ext[4];
-        /* get last 3+nul values of extension */
-        memcpy(&ext[0], r->filename + strlen(r->filename) - 3, 4);
-        for (int i = 0; i < 3; i++) {
-            ext[i] = tolower(ext[i]);
-        }
-        if (strcmp(&ext[0], "wav")) {
-            printf("only wav files are supported\n");
-            return false;
-        }
     }
 
     p->handle = sf_open(r->filename, SFM_READ, p->info);
@@ -62,8 +51,7 @@ bool reader_open(Reader *r)
         return false;
     }
 
-    if (!(p->info->format & SF_FORMAT_WAV) /*||
-            !(p->info->format & SF_FORMAT_PCM_16)*/) {
+    if (!(p->info->format & SF_FORMAT_WAV)) {
         printf("file not a wav\n");
         return false;
     }

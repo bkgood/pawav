@@ -8,7 +8,7 @@
 const size_t kDefaultBuffer = 4096;
 
 typedef struct {
-    SF_INFO *info;
+    SF_INFO info;
     SNDFILE *handle;
     size_t buffer_size;
 } ReaderPrivate;
@@ -22,8 +22,7 @@ bool reader_create(Reader **r)
     if (!p) return false;
     myr->p = p;
 
-    p->info = calloc(1, sizeof(SF_INFO));
-    if (!p->info) return false;
+    memset(&p->info, 0, sizeof(p->info));
 
     *r = myr;
     return true;
@@ -43,18 +42,18 @@ bool reader_open(Reader *r)
         return false;
     }
 
-    p->handle = sf_open(r->filename, SFM_READ, p->info);
+    p->handle = sf_open(r->filename, SFM_READ, &p->info);
     if (!p->handle) {
         printf("sf_open error: %s\n", sf_strerror(NULL));
         return false;
     }
 
-    if (!(p->info->format & SF_FORMAT_WAV)) {
+    if (!(p->info.format & SF_FORMAT_WAV)) {
         printf("file not a wav\n");
         return false;
     }
-    r->channels = p->info->channels;
-    r->samplerate = p->info->samplerate;
+    r->channels = p->info.channels;
+    r->samplerate = p->info.samplerate;
 
     r->buffer = calloc(r->channels * p->buffer_size, sizeof(int16_t));
     if (!r->buffer) {
@@ -91,7 +90,6 @@ bool reader_close(Reader *r)
 void reader_destroy(Reader **r)
 {
     ReaderPrivate *p = (*r)->p;
-    free(p->info);
     free(p);
     free(*r);
     *r = NULL;

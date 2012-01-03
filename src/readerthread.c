@@ -98,6 +98,7 @@ static void *readerthread_run(void *vrt)
         printf("sleeping\n");
         pthread_mutex_lock(&p->lock);
         pthread_cond_wait(&p->wait, &p->lock);
+        pthread_mutex_unlock(&p->lock);
         printf("waking\n");
     } while (true);
 wavEOF:

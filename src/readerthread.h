@@ -20,7 +20,7 @@ typedef struct {
     /** PaUtilRingBuffer to read data into. */
     PaUtilRingBuffer *rb;
     /** Set if the thread is running (sloppy). */
-    bool running;
+    volatile bool running;
     /** Private data. */
     void *p;
 } ReaderThread;

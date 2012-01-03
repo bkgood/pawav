@@ -51,7 +51,6 @@ int run_readerthread(const char *f)
 //        printf("trashing %d items\n", PaUtil_GetRingBufferReadAvailable(&rb));
         PaUtil_AdvanceRingBufferReadIndex(&rb,
                 PaUtil_GetRingBufferReadAvailable(&rb));
-        printf("command wake\n");
         readerthread_wake(&rt);
     }
     printf("joining\n");

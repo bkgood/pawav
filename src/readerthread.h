@@ -19,6 +19,8 @@ typedef struct {
     Reader *r;
     /** PaUtilRingBuffer to read data into. */
     PaUtilRingBuffer *rb;
+    /** Set if the thread is running (sloppy). */
+    bool running;
     /** Private data. */
     void *p;
 } ReaderThread;
@@ -50,6 +52,11 @@ void readerthread_join(ReaderThread *rt);
  * Destroys a ReaderThread.
  */
 void readerthread_destroy(ReaderThread *rt);
+
+/**
+ * Wakes a ReaderThread.
+ */
+void readerthread_wake(ReaderThread *rt);
 
 #ifdef __cplusplus
 }

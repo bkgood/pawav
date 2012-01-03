@@ -61,7 +61,7 @@ int run_readerthread(int argc, char *argv[])
     rt.rb = &rb;
     readerthread_start(&rt);
 
-    sleep(1);
+    readerthread_prime(&rt);
     FILE *fh = NULL;
     if (of) {
         fh = fopen(of, "wb");
@@ -69,7 +69,7 @@ int run_readerthread(int argc, char *argv[])
         printf("reading in a thread without output\n");
     }
 
-    while (rt.running) {
+    while (readerthread_running(&rt)) {
         size_t items_avail = PaUtil_GetRingBufferReadAvailable(&rb);
         if (of) {
             size_t items_read = PaUtil_ReadRingBuffer(&rb, file_data,

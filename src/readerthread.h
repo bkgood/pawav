@@ -19,8 +19,6 @@ typedef struct {
     Reader *r;
     /** PaUtilRingBuffer to read data into. */
     PaUtilRingBuffer *rb;
-    /** Set if the thread is running (sloppy). */
-    volatile bool running;
     /** Private data. */
     void *p;
 } ReaderThread;
@@ -57,6 +55,18 @@ void readerthread_destroy(ReaderThread *rt);
  * Wakes a ReaderThread.
  */
 void readerthread_wake(ReaderThread *rt);
+
+/**
+ * Wait for the started ReaderThread to prime itself. This can only be called
+ * once (it will return immediately if called a second time).
+ */
+void readerthread_prime(ReaderThread *rt);
+
+/**
+ * Determines whether or not a ReaderThread is running. Its response is only
+ * valid after a call to readerthread_prime has returned.
+ */
+bool readerthread_running(ReaderThread *rt);
 
 #ifdef __cplusplus
 }

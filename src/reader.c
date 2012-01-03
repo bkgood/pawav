@@ -57,6 +57,7 @@ bool reader_open(Reader *r)
         printf("failed to allocate buffer\n");
         return false;
     }
+    r->n = 0;
 
     return true;
 }

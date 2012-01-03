@@ -73,16 +73,13 @@ static void *readerthread_run(void *vrt)
     rt->running = true;
 
     do {
-        printf("running\n");
         size_t items_needed = 0;
         while ((items_needed = PaUtil_GetRingBufferWriteAvailable(rt->rb))) {
-            printf("need %zd items\n", items_needed);
             if (!rt->r->n) {
                 reader_read(rt->r);
                 if (!rt->r->n) goto wavEOF;
             }
             size_t items_read = rt->r->n * rt->r->channels;
-            printf("read %zd items\n", items_read);
             if (items_read < items_needed) {
                 PaUtil_WriteRingBuffer(rt->rb, rt->r->buffer, items_read);
                 rt->r->n -= items_read / rt->r->channels;
@@ -95,14 +92,11 @@ static void *readerthread_run(void *vrt)
                 rt->r->n -= items_read / rt->r->channels;
             }
         }
-        printf("sleeping\n");
         pthread_mutex_lock(&p->lock);
         pthread_cond_wait(&p->wait, &p->lock);
         pthread_mutex_unlock(&p->lock);
-        printf("waking\n");
     } while (true);
 wavEOF:
-    printf("quitting\n");
     rt->running = false;
     return NULL;
 }

@@ -5,6 +5,7 @@
 
 typedef struct {
     pa_threaded_mainloop *ml;
+    pa_context *c;
     pa_stream *s;
 } PulseWriterPrivate;
 
@@ -24,7 +25,6 @@ void pulsewriter_play(PulseWriter *pw)
 
     p->ml = pa_threaded_mainloop_new();
 
-
     pa_threaded_mainloop_free(p->ml);
 }
 
@@ -33,5 +33,4 @@ void pulsewriter_destroy(PulseWriter *pw)
     PulseWriterPrivate *p = pw->p;
 
     free(p);
-    pw->p = NULL;
 }

@@ -28,6 +28,13 @@ void pulsewriter_play(PulseWriter *pw)
     pa_threaded_mainloop_free(p->ml);
 }
 
+void pulsewriter_join(PulseWriter *pw)
+{
+    PulseWriterPrivate *p = pw->p;
+
+    (void) p;
+}
+
 void pulsewriter_destroy(PulseWriter *pw)
 {
     PulseWriterPrivate *p = pw->p;

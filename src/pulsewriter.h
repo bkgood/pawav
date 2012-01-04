@@ -28,10 +28,15 @@ typedef struct {
 bool pulsewriter_init(PulseWriter *pw);
 
 /**
- * Plays the data in the PaUtilRingBuffer, until the ring buffer is empty and
- * the stopped function returns true.
+ * Starts playing the data in the ring buffer, until the ring buffer is empty
+ * and the stopped method returns true (async).
  */
 void pulsewriter_play(PulseWriter *pw);
+
+/**
+ * Blocks until pulsewriter_play finishes.
+ */
+void pulsewriter_join(PulseWriter *pw);
 
 /**
  * Destroys a PulseWriter.

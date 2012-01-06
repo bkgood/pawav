@@ -7,6 +7,16 @@
 #include "reader.h"
 #include "readerthread.h"
 #include "pa_ringbuffer.h"
+#include "pulsewriter.h"
+
+int run_pulse(int argc, char *argv[])
+{
+    PulseWriter pw;
+    pulsewriter_init(&pw);
+    sleep(5);
+    pulsewriter_destroy(&pw);
+    return 0;
+}
 
 int run_reader(int argc, char *argv[])
 {
@@ -97,5 +107,5 @@ int main(int argc, char *argv[])
     setenv("PULSE_PROP_application.name", "pawav", 1);
     setenv("PULSE_PROP_media.role", "music", 1);
 
-    return run_readerthread(argc, argv);
+    return run_pulse(argc, argv);
 }

@@ -24,6 +24,7 @@ bool pulsewriter_init(PulseWriter *pw)
     pa_threaded_mainloop_start(p->ml);
 
     setup(pw);
+    create_stream(pw);
     return true;
 }
 
@@ -65,6 +66,17 @@ static void setup(PulseWriter *pw)
     pa_context_set_state_callback(p->c, NULL, NULL);
 
     pa_threaded_mainloop_unlock(p->ml);
+}
+
+static void create_stream(PulseWriter *pw)
+{
+    PulseWriterPrivate *p = pw->p;
+
+    pa_threaded_mainloop_lock(p->ml);
+    pa_sample_spec ss;
+    pa_channel_map map;
+    pa_proplist pl;
+    p->s = pa_stream_new(p->c, "pawav", &ss, &map, &pl);
 }
 
 static void start_cb(pa_context *c, void *vpw)

@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include <pulse/pulseaudio.h>
-
-#include "pa_ringbuffer.h"
+#include "readerthread.h"
 
 #ifndef PULSEWRITER_H
 #define PULSEWRITER_H
@@ -14,7 +13,7 @@ extern "C" {
  * An object which writes from a PaUtilRingBuffer to a pa_stream.
  */
 typedef struct {
-    PaUtilRingBuffer *rb;
+    ReaderThread *rt;
     bool (*stopped)(void);
     void *p;
 } PulseWriter;

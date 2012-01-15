@@ -62,6 +62,7 @@ static void setup(PulseWriter *pw)
     while (pa_context_get_state(p->c) != PA_CONTEXT_READY) {
         pa_threaded_mainloop_wait(p->ml);
     }
+    pa_context_set_state_callback(p->c, NULL, NULL);
 
     pa_threaded_mainloop_unlock(p->ml);
 }
